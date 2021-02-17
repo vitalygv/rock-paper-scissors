@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Rock paper scissors game</title>
+    <style>
+        html {
+            font-size: 10px;
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+        }
+
+        .buttons {
+            display: flex;
+            flex: 1;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .button {
+            border: .4rem solid black;
+            border-radius: .5rem;
+            margin: 1rem;
+            font-size: 1.5rem;
+            padding: 1rem .5rem;
+            transition: all .07s ease;
+            width: 10rem;
+            text-align: center;
+            color: white;
+            background: rgba(0, 0, 0, 0.4);
+            text-shadow: 0 0 .5rem black;
+        }
+
+        #results {
+            display: flex;
+            flex: 1;
+            position: absolute;
+            bottom: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="buttons">
+        <button value="rock" id="rock" class="button">Rock</button>
+        <button value="paper" id="paper" class="button">Paper</button>
+        <button value="scissors" id="scissors" class="button">Scissors</button>
+    </div>
+    <div id="results">
+        <span>Hello! Click the button!</span>
+    </div>
+</body>
+
+<script>
+
+    function computerPlay() {
+        let myArray = ["rock", "paper", "scissors"];
+        return myArray[Math.floor(Math.random() * myArray.length)];
+    }
+    function disableButtons() {
+        buttons.forEach(button => {
+            button.disabled = true
+        })
+    }
+    function playRound(playerSelection) {
+        computerSelection = computerPlay();
+        if (playerSelection === computerSelection) {
+            document.getElementById('results').innerHTML = "tie!"
+        }
+        else if ((playerSelection === "rock" && computerSelection === "paper") ||
+            (playerSelection === "paper" && computerSelection === "scissors") ||
+            (playerSelection === "scissors" && computerSelection === "rock")) {
+            document.getElementById('results').innerHTML = `Lose! ${computerSelection} wins ${playerSelection}`;
+            computerScore++
+        }
+
+        else {
+            document.getElementById('results').innerHTML = `Win! ${playerSelection} wins ${computerSelection}`;
+            playerScore++
+        }
+        if (playerScore == 5) { document.getElementById('results').innerHTML = `Total win! Your score ${playerScore}, computer score ${computerScore}`; disableButtons() };
+        if (computerScore == 5) { document.getElementById('results').innerHTML = `Total lose! Your score ${playerScore}, computer score ${computerScore}`; disableButtons() };
+    }
+
+
+    let playerScore = 0;
+    let computerScore = 0;
+
+    let buttons = Array.from(document.querySelectorAll('button'));
+    buttons.forEach((button) => {
+        button.addEventListener('click', function () { console.log(button.value); playRound(button.value) })
+    });
+
+</script>
