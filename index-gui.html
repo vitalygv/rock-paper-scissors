@@ -20,7 +20,7 @@
             justify-content: center;
         }
 
-        .button {
+        .gameButton {
             border: .4rem solid black;
             border-radius: .5rem;
             margin: 1rem;
@@ -44,16 +44,15 @@
             align-items: center;
             justify-content: center;
             font-size: 25px;
-
         }
     </style>
 </head>
 
 <body>
     <div class="buttons">
-        <button value="rock" id="rock" class="button">Rock</button>
-        <button value="paper" id="paper" class="button">Paper</button>
-        <button value="scissors" id="scissors" class="button">Scissors</button>
+        <button value="rock" id="rock" class="gameButton">Rock</button>
+        <button value="paper" id="paper" class="gameButton">Paper</button>
+        <button value="scissors" id="scissors" class="gameButton">Scissors</button>
     </div>
     <div id="results">
         <span>Hello! Click the button!</span>
@@ -61,43 +60,59 @@
 </body>
 
 <script>
+    const PLAY_BUTTONS = Array.from(document.querySelectorAll('button.gameButton'));
 
     function computerPlay() {
-        let myArray = ["rock", "paper", "scissors"];
+        const myArray = ["rock", "paper", "scissors"];
         return myArray[Math.floor(Math.random() * myArray.length)];
     }
+
     function disableButtons() {
-        buttons.forEach(button => {
+        PLAY_BUTTONS.forEach(button => {
             button.disabled = true
         })
     }
-    function playRound(playerSelection) {
-        computerSelection = computerPlay();
-        if (playerSelection === computerSelection) {
-            document.getElementById('results').innerHTML = "tie!"
-        }
-        else if ((playerSelection === "rock" && computerSelection === "paper") ||
-            (playerSelection === "paper" && computerSelection === "scissors") ||
-            (playerSelection === "scissors" && computerSelection === "rock")) {
-            document.getElementById('results').innerHTML = `Lose! ${computerSelection} wins ${playerSelection}`;
-            computerScore++
-        }
 
-        else {
-            document.getElementById('results').innerHTML = `Win! ${playerSelection} wins ${computerSelection}`;
+    function playRound(playerSelection) {
+        const computerSelection = computerPlay();
+        let resultText;
+
+        if (playerSelection === computerSelection) {
+            resultText = "Tie!"
+        } else if (
+            (playerSelection === "rock" && computerSelection === "paper") ||
+            (playerSelection === "paper" && computerSelection === "scissors") ||
+            (playerSelection === "scissors" && computerSelection === "rock")
+        ) {
+            resultText = `Lose! ${computerSelection} wins ${playerSelection}`;
+            computerScore++
+        } else {
+            resultText = `Win! ${playerSelection} wins ${computerSelection}`;
             playerScore++
         }
-        if (playerScore == 5) { document.getElementById('results').innerHTML = `Total win! Your score ${playerScore}, computer score ${computerScore}`; disableButtons() };
-        if (computerScore == 5) { document.getElementById('results').innerHTML = `Total lose! Your score ${playerScore}, computer score ${computerScore}`; disableButtons() };
+
+        if (playerScore == 5) {
+            resultText = `Total win! Your score ${playerScore}, computer score ${computerScore}`;
+            disableButtons();
+        };
+
+        if (computerScore == 5) {
+            resultText = `Total lose! Your score ${playerScore}, computer score ${computerScore}`;
+            disableButtons();
+        };
+
+        document.getElementById('results').innerHTML = resultText;
     }
 
 
     let playerScore = 0;
     let computerScore = 0;
 
-    let buttons = Array.from(document.querySelectorAll('button'));
-    buttons.forEach((button) => {
-        button.addEventListener('click', function () { console.log(button.value); playRound(button.value) })
+    PLAY_BUTTONS.forEach((button) => {
+        button.addEventListener('click', () => {
+            console.log(button.value);
+            playRound(button.value);
+        })
     });
 
 </script>
