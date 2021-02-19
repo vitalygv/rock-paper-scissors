@@ -1,0 +1,73 @@
+
+  <script>
+      // get player selection
+      // generate computer selection
+      // compare player and computer
+      // if player wins add 1 point to him else if computer wins add 1 point to computer else tie
+      // repeat game 5 times then end game
+      
+      
+      function computerPlay(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  min = 0;
+  max = 2;
+  let randomValue = Math.floor(Math.random() * (max - min + 1)) + min;
+  if (randomValue === 0){
+    return "rock"
+  }
+  else if (randomValue === 1){
+  return "paper"
+    }
+  else {
+      return "scissors"
+        }
+}
+
+      function playRound(playerSelection, computerSelection) {
+       playerSelection = prompt("Please make your choice: ");
+       computerSelection = computerPlay();
+if (playerSelection.toLowerCase() === computerSelection){
+    return console.log("tie!")
+}
+else if (playerSelection.toLowerCase() === "rock" && computerSelection === "paper"){
+    console.log("Lose! Paper beats rock!");
+    return  computerScore++
+}
+else if (playerSelection.toLowerCase() === "rock" && computerSelection === "scissors"){
+    console.log("win! Rock wins scissors!");
+    return playerScore++
+}
+else if (playerSelection.toLowerCase() === "paper" && computerSelection === "rock"){
+    console.log("win! Paper wins rock!");
+    return playerScore++
+}
+else if (playerSelection.toLowerCase() === "paper" && computerSelection === "scissors"){
+    console.log("Lose! Scissors wins paper!");
+    return computerScore++
+}
+else if (playerSelection.toLowerCase() === "scissors" && computerSelection === "rock"){
+    console.log("Lose! Rock wins scissors!");
+    return computerScore++
+}
+else {
+    console.log("Win! Scissors wins paper!");
+    return  playerScore++
+}
+}
+
+function game(){
+    for(let i = 1; i <= 5; i++) {
+       playRound();
+    } 
+}
+
+let playerScore = 0;
+let computerScore = 0;
+console.log(game());
+console.log("Computer score: " + computerScore, "Your score: " + playerScore)
+if (computerScore > playerScore){console.log("You've lost the game!")}
+else if (computerScore < playerScore){console.log("You won!")}
+else {console.log("Draw!")}
+
+  </script>
